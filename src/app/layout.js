@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
         <CartProvider>
-			<ToastContainer />
+          <ToastContainer />
           <Navbar />
           {children}
         </CartProvider>
@@ -28,4 +28,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-

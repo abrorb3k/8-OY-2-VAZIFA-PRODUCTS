@@ -1,14 +1,35 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 import { useCart } from "@/app/cart/CartContext";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; 
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductCard = ({ p }) => {
   const { addToCart } = useCart();
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+
+    const openTimer = setTimeout(() => {
+      setShowModal(true);
+
+  
+      const closeTimer = setTimeout(() => {
+        setShowModal(false);
+      }, 3000);
+
+      return () => clearTimeout(closeTimer);
+    }, []);
+
+    return () => clearTimeout(openTimer);
+  }, []);
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const handleAddToCart = () => {
     addToCart(p);
@@ -25,6 +46,30 @@ const ProductCard = ({ p }) => {
 
   return (
     <div className="p-3 pb-10 relative shadow rounded">
+      {showModal && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 className="text-xl font-bold">Follow Us on Social Media!</h2>
+            <p className="text-gray-600 mt-2">Stay connected with us.</p>
+            <a href="#" className="text-blue-500 text-xl">
+              🔴 Instagram
+            </a>
+            <a href="#" className="text-red-500 text-xl">
+              🔴 YouTube
+            </a>
+            <a href="#" className="text-blue-400 text-xl">
+              🔷 Telegram
+            </a>
+            <button
+              onClick={closeModal}
+              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded block mx-auto cursor-pointer"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
       <span className="absolute top-2 right-2 cursor-pointer hover:scale-110">
         <Heart />
       </span>
